@@ -43,26 +43,39 @@ def game(bet, spins):
 
 
 def increase_stake(bet, spins):
-    fib = [1, 1, 2, 5, 8, 13, 21, 34, 55, 89]
-    mult = 1
+    fib = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+    balance = 100
     streak = 0
-    for turns in range(1, spins + 1):
-        if not spin(bet):
+    for turns in range(0, spins):
+        if balance - fib[streak] < 0:
+            print "Bust!!"
+            break
+        elif not spin(bet):
+            print "bet: ", fib[streak]
             print "loss"
-            mult = fib[streak]
+            balance -= fib[streak]
             streak += 1
-            print mult
+            print "streak", streak
+            print "balance", balance
         else:
-            print "win"
-            streak = 0
-            if streak > 2:
-                mult = fib[streak - 2]
+            if streak >= 2:
+                print "bet: ", fib[streak]
+                balance += fib[streak]
+                streak -= 2
+                print "win"
+                print "streak", streak
+                print "balance: ", balance
             else:
-                mult = 1
+                print "bet: ", fib[streak]
+                print "win"
+                balance += fib[streak]
+                streak = 0
+                print "streak", streak
+                print "balance: ", balance
 
-    return mult
+    return "final balance", balance
 
-print increase_stake("red", 100)
+print increase_stake("red", 20)
 
 
 
